@@ -1,0 +1,6 @@
+﻿services:
+  mayonyies.api:
+    image: mayonyies.api
+    build:
+      context: .
+      dockerfile: Mayonyies.Api/Dockerfile
