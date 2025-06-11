@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Mayonyies.Core\Mayonyies.Core.csproj"/>
+        <ProjectReference Include="..\..\Core\Mayonyies.Core\Mayonyies.Core.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -22,9 +22,9 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Infrastructure\Mayonyies.Repository.EfCore\Mayonyies.Repository.EfCore.csproj"/>
-        <ProjectReference Include="..\Mayonyies.Application\Mayonyies.Application.csproj"/>
-        <ProjectReference Include="..\Mayonyies.Core\Mayonyies.Core.csproj"/>
-        <ProjectReference Include="..\Mayonyies.Infrastructure\Mayonyies.Infrastructure.csproj"/>
+        <ProjectReference Include="..\Application\Mayonyies.Application\Mayonyies.Application.csproj"/>
+        <ProjectReference Include="..\Core\Mayonyies.Core\Mayonyies.Core.csproj"/>
+        <ProjectReference Include="..\Infrastructure\Mayonyies.Infrastructure\Mayonyies.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>
