@@ -4,23 +4,23 @@ namespace Mayonyies.Core.Shared;
 
 /// <summary>
 ///     <para>
-///         A <see cref="IRepositoryBase{T}" /> can be used to query and save instances of <typeparamref name="T" />.
+///         A <see cref="IRepository{T}" /> can be used to query and save instances of <typeparamref name="T" />.
 ///     </para>
 /// </summary>
 /// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
-public interface IRepositoryBase<T> : IRepositoryBase<T, int>
+public interface IRepository<T>
     where T : EntityBase, IAggregateRoot;
 
 /// <summary>
 ///     <para>
-///         A <see cref="IRepositoryBase{T, TId}" /> can be used to query and save instances of <typeparamref name="T" />.
+///         A <see cref="IRepository{T,TId}" /> can be used to query and save instances of <typeparamref name="T" />.
 ///     </para>
 /// </summary>
 /// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
 /// <typeparam name="TId">The type the entity uses as and identifier.</typeparam>
-public interface IRepositoryBase<T, in TId> : IReadRepositoryBase<T, TId>
+public interface IRepository<T, in TId> : IReadRepositoryBase<T, TId>
     where T : EntityBase<TId>, IAggregateRoot
-    where TId : struct, IEquatable<TId>
+    where TId : struct
 {
     /// <summary>
     ///     Adds an entity in the database.
@@ -83,11 +83,4 @@ public interface IRepositoryBase<T, in TId> : IReadRepositoryBase<T, TId>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task DeleteRangeAsync(Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Persists changes to the database.
-    /// </summary>
-    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

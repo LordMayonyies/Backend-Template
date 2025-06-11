@@ -8,7 +8,7 @@ namespace Mayonyies.Core.Shared;
 ///     </para>
 /// </summary>
 /// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
-public interface IReadRepositoryBase<T> : IReadRepositoryBase<T, int>
+public interface IReadRepositoryBase<T>
     where T : EntityBase, IAggregateRoot;
 
 /// <summary>
@@ -20,7 +20,7 @@ public interface IReadRepositoryBase<T> : IReadRepositoryBase<T, int>
 /// <typeparam name="TId">The type the entity uses as and identifier.</typeparam>
 public interface IReadRepositoryBase<T, in TId>
     where T : EntityBase<TId>, IAggregateRoot
-    where TId : struct, IEquatable<TId>
+    where TId : struct
 {
     /// <summary>
     ///     Finds an entity with the given primary key value.
@@ -123,9 +123,7 @@ public interface IReadRepositoryBase<T, in TId>
     ///     source sequence contains any elements; otherwise, false.
     /// </returns>
     Task<bool> AnyAsync(CancellationToken cancellationToken = default);
-
-
-#if NET6_0_OR_GREATER
+    
     /// <summary>
     ///     Finds all entities of <typeparamref name="T" />, that matches the <paramref name="expression" />, from the
     ///     database.
@@ -135,5 +133,4 @@ public interface IReadRepositoryBase<T, in TId>
     ///     Returns an IAsyncEnumerable which can be enumerated asynchronously.
     /// </returns>
     IAsyncEnumerable<T> AsAsyncEnumerable(Expression<Func<T, bool>> expression);
-#endif
 }
