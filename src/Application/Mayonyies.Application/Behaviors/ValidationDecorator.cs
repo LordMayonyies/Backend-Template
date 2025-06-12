@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.Results;
 using Mayonyies.Application.Messaging;
+using Mayonyies.Core;
 using Mayonyies.Core.Shared;
 
 namespace Mayonyies.Application.Behaviors;
@@ -56,6 +57,6 @@ internal static class ValidationDecorator
             .ToArray();
     }
     
-    private static ValidationError CreateValidationError(ValidationFailure[] validationFailures) =>
-        new(validationFailures.Select(f => Error.Problem(f.ErrorCode, f.ErrorMessage)).ToArray());
+    private static Error CreateValidationError(ValidationFailure[] validationFailures) =>
+        Errors.Validation.Create(validationFailures.Select(f => new Error(f.ErrorCode, f.ErrorMessage)).ToArray());
 }
