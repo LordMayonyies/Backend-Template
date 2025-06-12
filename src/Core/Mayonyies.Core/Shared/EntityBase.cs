@@ -30,10 +30,10 @@ public interface IAuditableEntity
 /// </summary>
 public abstract class EntityBase : HasDomainEventsBase, IAuditableEntity, IEquatable<EntityBase>
 {
-    public DateTime CreatedAtUtc { get; }
-    public string CreatedBy { get; }
-    public DateTime? ModifiedAtUct { get; }
-    public string ModifiedBy { get; }
+    public DateTime CreatedAtUtc { get; private set; }
+    public string CreatedBy { get; private set; } = null!;
+    public DateTime? ModifiedAtUct { get; private set; }
+    public string ModifiedBy { get; private set; } = null!;
 
     public abstract bool Equals(EntityBase? other);
 

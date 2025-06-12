@@ -1,13 +1,15 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Mayonyies.Core.Shared;
 
-public abstract class HasDomainEventsBase : IHasDomainEvents
+public abstract class HasDomainEventsBase
 {
     private readonly List<DomainEventBase> _domainEvents = [];
-
-    [NotMapped] public IReadOnlyCollection<DomainEventBase> DomainEvents => _domainEvents.AsReadOnly();
-
+    
     protected void RegisterDomainEvent(DomainEventBase domainEvent) => _domainEvents.Add(domainEvent);
-    internal void ClearDomainEvents() => _domainEvents.Clear();
+
+    public IReadOnlyList<DomainEventBase> GetAndClearDomainEvents()
+    {
+        var domainEvents = _domainEvents.ToList();
+        _domainEvents.Clear();
+        return domainEvents;
+    }
 }
