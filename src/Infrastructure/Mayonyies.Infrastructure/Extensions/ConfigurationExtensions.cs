@@ -3,11 +3,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace Mayonyies.Infrastructure.Extensions;
 
-public static class ConfigurationExtensions
+internal static class ConfigurationExtensions
 {
-    private const string DatabaseConnectionStringName = "Database";
+    private const string DatabaseConnectionStringName = "MayonyiesDb";
 
     public static string GetConnectionString(this IConfiguration configuration) =>
-        configuration.GetConnectionString("Database")
+        configuration.GetConnectionString(DatabaseConnectionStringName)
         ?? throw new ConfigurationException("You must configure a connection string for the database.");
 }

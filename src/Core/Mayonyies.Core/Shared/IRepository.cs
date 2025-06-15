@@ -9,7 +9,7 @@ namespace Mayonyies.Core.Shared;
 /// </summary>
 /// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
 public interface IRepository<T>
-    where T : EntityBase, IAggregateRoot;
+    where T : Entity, IAggregateRoot;
 
 /// <summary>
 ///     <para>
@@ -19,7 +19,7 @@ public interface IRepository<T>
 /// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
 /// <typeparam name="TId">The type the entity uses as and identifier.</typeparam>
 public interface IRepository<T, in TId> : IReadRepositoryBase<T, TId>
-    where T : EntityBase<TId>, IAggregateRoot
+    where T : Entity<TId>, IAggregateRoot
     where TId : struct
 {
     /// <summary>

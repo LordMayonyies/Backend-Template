@@ -3,16 +3,16 @@
   "author": "Sergi Mayor Agusti",
   "classifications": [
     "Web",
+    "Api",
     "ASP.NET",
     "Clean Architecture"
   ],
   "tags": {
-    "language": "C#",
-    "type": "project"
+    "language": "C#"
   },
   "identity": "Mayonyies.Backend.Template",
   "name": "ASP.NET Backend Solution",
   "shortName": "backend",
-  "sourceName": "Backend.Template",
+  "sourceName": "Mayonyies.Backend.Template",
   "preferNameDirectory": true
 }

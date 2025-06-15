@@ -60,9 +60,9 @@ public readonly record struct Result<TValue> : IResult<TValue, Error?>
 
 public readonly record struct Result : IResult<Success?, Error?>
 {
-    private Result(Success value)
+    private Result(Success success)
     {
-        Value = value;
+        Value = success;
         Error = null;
         IsSuccess = true;
     }
@@ -79,6 +79,7 @@ public readonly record struct Result : IResult<Success?, Error?>
     public bool IsSuccess { get; }
     public bool IsFailure => !IsSuccess;
 
-    public static Result Success(Success value) => new(value);
+    public static Result Success(Success success) => new(success);
+    public static Result Success() => Success(Successes.General.Success());
     public static Result Failure(Error error) => new(error);
 }
