@@ -1,10 +1,15 @@
 using Mayonyies.Application;
 using Mayonyies.Infrastructure;
 using Mayonyies.Repository.EfCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
+
+builder.Services.AddSerilog(loggerConfiguration => 
+    loggerConfiguration.ReadFrom.Configuration(builder.Configuration)
+        .CreateLogger());
 
 builder.Services.AddApplication();
 
