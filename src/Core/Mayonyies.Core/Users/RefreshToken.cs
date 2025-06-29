@@ -27,7 +27,7 @@ public sealed class RefreshToken : Entity
         if (entityBase is not RefreshToken other)
             return false;
         
-        return GetType() == other.GetType() && UserId == other.UserId && Value == other.Value;
+        return UserId == other.UserId && Value == other.Value;
     }
 
     public override int GetHashCode() =>

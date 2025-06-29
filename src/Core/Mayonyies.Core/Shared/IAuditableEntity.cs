@@ -15,7 +15,7 @@ public interface IAuditableEntity
     /// <summary>
     ///     The date and time when the entity was last modified.
     /// </summary>
-    DateTime? ModifiedAtUct { get; }
+    DateTime ModifiedAtUtc { get; }
 
     /// <summary>
     ///     The user or system that last modified the entity.

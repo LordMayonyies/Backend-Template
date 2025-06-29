@@ -8,19 +8,8 @@ namespace Mayonyies.Core.Shared;
 ///     </para>
 /// </summary>
 /// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
-public interface IRepository<T>
-    where T : Entity, IAggregateRoot;
-
-/// <summary>
-///     <para>
-///         A <see cref="IRepository{T,TId}" /> can be used to query and save instances of <typeparamref name="T" />.
-///     </para>
-/// </summary>
-/// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
-/// <typeparam name="TId">The type the entity uses as and identifier.</typeparam>
-public interface IRepository<T, in TId> : IReadRepositoryBase<T, TId>
-    where T : Entity<TId>, IAggregateRoot
-    where TId : struct
+public interface IRepository<T> : IReadRepository<T>
+    where T : Entity, IAggregateRoot
 {
     /// <summary>
     ///     Adds an entity in the database.
@@ -31,7 +20,7 @@ public interface IRepository<T, in TId> : IReadRepositoryBase<T, TId>
     ///     A task that represents the asynchronous operation.
     ///     The task result contains the <typeparamref name="T" />.
     /// </returns>
-    Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
+    Task AddAsync(T entity, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Adds the given entities in the database
@@ -41,7 +30,7 @@ public interface IRepository<T, in TId> : IReadRepositoryBase<T, TId>
     /// <returns>
     ///     A task that represents the asynchronous operation.
     /// </returns>
-    Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+    Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Updates an entity in the database
@@ -83,4 +72,17 @@ public interface IRepository<T, in TId> : IReadRepositoryBase<T, TId>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task DeleteRangeAsync(Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+///     <para>
+///         A <see cref="IRepository{T,TId}" /> can be used to query and save instances of <typeparamref name="T" />.
+///     </para>
+/// </summary>
+/// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
+/// <typeparam name="TId">The type the entity uses as and identifier.</typeparam>
+public interface IRepository<T, in TId> : IReadRepository<T, TId>, IRepository<T>
+    where T : Entity<TId>, IAggregateRoot
+    where TId : struct
+{
 }

@@ -27,13 +27,14 @@ public sealed class User : Entity<int>, IAggregateRoot
     public bool IsActive { get; private set; }
     public IReadOnlyList<RefreshToken> RefreshTokens => _refreshTokens;
     
-    public Result AddRefreshToken(DateTime expiresAtUtc)
+    public Result<RefreshToken> AddRefreshToken(TimeSpan expiryTime)
     {
-        var refreshToken = RefreshToken.Create(this, expiresAtUtc);
+        var expireAtUtc = DateTime.UtcNow.Add(expiryTime);
+        var refreshToken = RefreshToken.Create(this, expireAtUtc);
 
         _refreshTokens.Add(refreshToken);
         
-        return Result.Success();
+        return refreshToken;
     }
     
     public override int GetHashCode() =>

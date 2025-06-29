@@ -2,14 +2,14 @@ using Mayonyies.Core.Shared;
 
 namespace Mayonyies.Application.Messaging;
 
-internal interface ICommandHandler<in TCommand>
+public interface ICommandHandler<in TCommand>
     where TCommand : ICommand
 {
-    Task<Result> Handle(TCommand command, CancellationToken cancellationToken);
+    Task<Result> Handle(TCommand command, CancellationToken cancellationToken = default);
 }
 
-internal interface ICommandHandler<in TCommand, TResponse>
+public interface ICommandHandler<in TCommand, TResponse>
     where TCommand : ICommand<TResponse>
 {
-    Task<Result<TResponse>> Handle(TCommand command, CancellationToken cancellationToken);
+    Task<Result<TResponse>> Handle(TCommand command, CancellationToken cancellationToken = default);
 }

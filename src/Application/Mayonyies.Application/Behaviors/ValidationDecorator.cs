@@ -38,7 +38,7 @@ internal static class ValidationDecorator
             if(validationFailures.Length == 0)
                 return await innerHandler.Handle(command, cancellationToken);
             
-            return Result<TResponse>.Failure(CreateValidationError(validationFailures));
+            return CreateValidationError(validationFailures);
         }
     }
     

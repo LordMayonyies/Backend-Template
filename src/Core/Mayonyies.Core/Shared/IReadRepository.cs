@@ -4,36 +4,13 @@ namespace Mayonyies.Core.Shared;
 
 /// <summary>
 ///     <para>
-///         A <see cref="IReadRepositoryBase{T}" /> can be used to query instances of <typeparamref name="T" />.
+///         A <see cref="IReadRepository{T}" /> can be used to query instances of <typeparamref name="T" />.
 ///     </para>
 /// </summary>
 /// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
-public interface IReadRepositoryBase<T>
-    where T : Entity, IAggregateRoot;
-
-/// <summary>
-///     <para>
-///         A <see cref="IReadRepositoryBase{T, TId}" /> can be used to query instances of <typeparamref name="T" />.
-///     </para>
-/// </summary>
-/// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
-/// <typeparam name="TId">The type the entity uses as and identifier.</typeparam>
-public interface IReadRepositoryBase<T, in TId>
-    where T : Entity<TId>, IAggregateRoot
-    where TId : struct
+public interface IReadRepository<T>
+    where T : Entity, IAggregateRoot
 {
-    /// <summary>
-    ///     Finds an entity with the given primary key value.
-    /// </summary>
-    /// <typeparam name="TId">The type of primary key.</typeparam>
-    /// <param name="id">The value of the primary key for the entity to be found.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>
-    ///     A task that represents the asynchronous operation.
-    ///     The task result contains the <typeparamref name="T" />, or <see langword="null" />.
-    /// </returns>
-    Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken = default);
-
     /// <summary>
     ///     Returns the first element of a sequence, or a default value if the sequence contains no elements.
     /// </summary>
@@ -133,4 +110,28 @@ public interface IReadRepositoryBase<T, in TId>
     ///     Returns an IAsyncEnumerable which can be enumerated asynchronously.
     /// </returns>
     IAsyncEnumerable<T> AsAsyncEnumerable(Expression<Func<T, bool>> expression);
+}
+
+/// <summary>
+///     <para>
+///         A <see cref="IReadRepository{T,TId}" /> can be used to query instances of <typeparamref name="T" />.
+///     </para>
+/// </summary>
+/// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
+/// <typeparam name="TId">The type the entity uses as and identifier.</typeparam>
+public interface IReadRepository<T, in TId> : IReadRepository<T>
+    where T : Entity<TId>, IAggregateRoot
+    where TId : struct
+{
+    /// <summary>
+    ///     Finds an entity with the given primary key value.
+    /// </summary>
+    /// <typeparam name="TId">The type of primary key.</typeparam>
+    /// <param name="id">The value of the primary key for the entity to be found.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains the <typeparamref name="T" />, or <see langword="null" />.
+    /// </returns>
+    Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken = default);
 }

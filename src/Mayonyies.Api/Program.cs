@@ -8,10 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddSerilog(loggerConfiguration => 
-    loggerConfiguration.ReadFrom.Configuration(builder.Configuration)
-        .CreateLogger());
+    loggerConfiguration.ReadFrom.Configuration(builder.Configuration));
 
-builder.Services.AddApplication();
+builder.Services.AddApplication(builder.Configuration);
 
 builder.Services.AddInfrastructure();
 
@@ -19,7 +18,6 @@ builder.Services.AddEfCoreRepository(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 

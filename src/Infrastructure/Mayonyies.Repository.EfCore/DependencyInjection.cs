@@ -1,5 +1,8 @@
+using Mayonyies.Core.Shared;
+using Mayonyies.Core.Users;
 using Mayonyies.Infrastructure.Extensions;
-using Microsoft.EntityFrameworkCore;
+using Mayonyies.Repository.EfCore.Interceptors;
+using Mayonyies.Repository.EfCore.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,10 +12,22 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddEfCoreRepository(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<MayonyiesDbContext>(options =>
+        services.AddSingleton<PublishDomainEventsSaveChangesInterceptor>();
+        services.AddSingleton<UpdateAuditableEntitiesSaveChangesInterceptor>();
+
+        services.AddDbContext<MayonyiesDbContext>((serviceProvider, options) =>
         {
             options.UseNpgsql(configuration.GetConnectionString());
+
+            options.AddInterceptors(
+                serviceProvider.GetRequiredService<UpdateAuditableEntitiesSaveChangesInterceptor>(),
+                serviceProvider.GetRequiredService<PublishDomainEventsSaveChangesInterceptor>()
+            );
         });
+
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<MayonyiesDbContext>());
+        
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }
