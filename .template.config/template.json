@@ -3,36 +3,39 @@
   "author": "Sergi Mayor Agusti",
   "classifications": [
     "Web",
-    "Api",
-    "ASP.NET",
+    "Web API",
+    "API",
+    "Solution",
+    "Backend",
     "Clean Architecture"
   ],
   "tags": {
     "language": "C#",
-    "type": "solution",
+    "type": "solution"
   },
   "identity": "Mayonyies.Backend.Template",
-  "name": "ASP.NET Backend Solution",
+  "name": "ASP.NET Core Backend Solution",
   "shortName": "backend",
   "sourceName": "Mayonyies",
   "preferNameDirectory": true,
   "sources": [
     {
+      "include": [
+        "**/*"
+      ],
+      "exclude": [
+        ".template.config/**",
+        ".git/**",
+        ".gitignore",
+        "**/*.nuspec"
+      ],
       "modifiers": [
         {
-          "exclude": [
-            ".template.config",
-            ".git/",
-            ".gitignore",
-            "BackendTemplate.nuspec"
-          ]
+          "rename": {
+            "README_Package.md": "README.md"
+          }
         }
-      ],
-      "source": "./",
-      "target": "./",
-      "rename": {
-        "README_Package.md": "README.md"
-      }
+      ]
     }
   ]
 }

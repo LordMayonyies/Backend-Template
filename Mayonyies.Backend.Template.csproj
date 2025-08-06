@@ -1,40 +1,42 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
+        <!-- Basic package info -->
         <TargetFramework>net10.0</TargetFramework>
         <PackageId>Mayonyies.Backend.Template</PackageId>
         <Version>0.0.1</Version>
-        
         <Authors>Sergi Mayor Agusti</Authors>
-        <Description>A short description of your template</Description>
+        <Description>ASP.NET Core Backend Solution Template using Clean Architecture</Description>
+        <PackageTags>web;web api;api;aspnet;backend;clean-architecture</PackageTags>
+        <PackageType>Template</PackageType>
+
+        <!-- NuGet metadata -->
         <PackageProjectUrl>https://github.com/LordMayonyies</PackageProjectUrl>
-        
-        <PackageTags>Web ASP.NET Backend API "Clean Architecture"</PackageTags>
-        
+        <RepositoryUrl>https://github.com/LordMayonyies/Backend-Template</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        
-        <RepositoryUrl>https://github.com/LordMayonyies/Backend-Template</RepositoryUrl>
-        
-        <PackageType>Template</PackageType>
+
+        <!-- Output and content behavior -->
         <IncludeContentInPack>true</IncludeContentInPack>
-        <ContentTargetFolders>content</ContentTargetFolders>
+        <ContentTargetFolders>contentFiles/any/any</ContentTargetFolders>
         <PackageOutputPath>./nupkg</PackageOutputPath>
-        
         <NoBuild>true</NoBuild>
         <BuildProject>false</BuildProject>
         <IncludeBuildOutput>false</IncludeBuildOutput>
-
-        <ContentTargetFolders>contentFiles/any/any</ContentTargetFolders>
+        <NoDefaultExcludes>true</NoDefaultExcludes>
     </PropertyGroup>
 
     <ItemGroup>
-        <None
-                Include="**\*"
-                Exclude="Mayonyies.Backend.Template.csproj;**/.git/**;**/.gitignore;**/bin/**;**/obj/**;**/.DS_Store"
-                Pack="true"
-                PackagePath="contentFiles/any/any/"/>
-        <None Include="README.md" Pack="true" PackagePath="/" />
+        <!-- Include everything except excluded files -->
+        <None Include="**/*;"
+              Exclude="Mayonyies.Backend.Template.csproj;**/.git/**;**/.gitignore;**/bin/**;**/obj/**;**/.DS_Store;**/*.user;**/*.suo;**/.vscode/**;**/.idea/**;**/node_modules/**;**/dist/**;**/out/**;**/coverage/**;**/test-results/**;**/tests/**;README.md;**/*.nupkg"
+              Pack="true"
+              PackagePath="contentFiles/any/any/" />
+
+        <!-- Explicitly include README.md for nuget.org preview -->
+        <None Include="README.md" Pack="true" PackagePath="" />
     </ItemGroup>
+
 </Project>
