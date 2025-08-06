@@ -4,7 +4,7 @@
         <!-- Basic package info -->
         <TargetFramework>net10.0</TargetFramework>
         <PackageId>Mayonyies.Backend.Template</PackageId>
-        <Version>0.0.1</Version>
+        <Version>0.0.2</Version>
         <Authors>Sergi Mayor Agusti</Authors>
         <Description>ASP.NET Core Backend Solution Template using Clean Architecture</Description>
         <PackageTags>web;web api;api;aspnet;backend;clean-architecture</PackageTags>
