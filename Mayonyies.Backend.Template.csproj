@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <PackageId>Mayonyies.Backend.Template</PackageId>
+        <Version>0.0.1</Version>
+        
+        <Authors>Sergi Mayor Agusti</Authors>
+        <Description>A short description of your template</Description>
+        <PackageProjectUrl>https://github.com/LordMayonyies</PackageProjectUrl>
+        
+        <PackageTags>Web ASP.NET Backend API "Clean Architecture"</PackageTags>
+        
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        
+        <RepositoryUrl>https://github.com/LordMayonyies/Backend-Template</RepositoryUrl>
+        
+        <PackageType>Template</PackageType>
+        <IncludeContentInPack>true</IncludeContentInPack>
+        <ContentTargetFolders>content</ContentTargetFolders>
+        <PackageOutputPath>./nupkg</PackageOutputPath>
+        
+        <NoBuild>true</NoBuild>
+        <BuildProject>false</BuildProject>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+
+        <ContentTargetFolders>contentFiles/any/any</ContentTargetFolders>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None
+                Include="**\*"
+                Exclude="Mayonyies.Backend.Template.csproj;**/.git/**;**/.gitignore;**/bin/**;**/obj/**;**/.DS_Store"
+                Pack="true"
+                PackagePath="contentFiles/any/any/"/>
+        <None Include="README.md" Pack="true" PackagePath="/" />
+    </ItemGroup>
+</Project>
