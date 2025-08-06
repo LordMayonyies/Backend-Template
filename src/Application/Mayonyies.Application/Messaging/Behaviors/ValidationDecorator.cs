@@ -1,10 +1,8 @@
 using FluentValidation;
 using FluentValidation.Results;
-using Mayonyies.Application.Messaging;
 using Mayonyies.Core;
-using Mayonyies.Core.Shared;
 
-namespace Mayonyies.Application.Behaviors;
+namespace Mayonyies.Application.Messaging.Behaviors;
 
 internal static class ValidationDecorator
 {

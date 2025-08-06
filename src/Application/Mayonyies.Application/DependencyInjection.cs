@@ -1,7 +1,6 @@
-using Mayonyies.Application.Authentication;
-using Mayonyies.Application.Behaviors;
 using Mayonyies.Application.DomainEvents;
 using Mayonyies.Application.Jwt;
+using Mayonyies.Application.Messaging.Behaviors;
 using Mayonyies.Core.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;

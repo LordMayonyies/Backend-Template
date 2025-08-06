@@ -4,3 +4,13 @@
     build:
       context: .
       dockerfile: Mayonyies.Api/Dockerfile
+    environment:
+      ConnectionStrings__MayonyiesDb: "${MayonyiesDbUrl:?Please configure MayonyiesDbUrl in the .env file}"
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER:?Please configure POSTGRES_USER in the .env file}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?Please configure POSTGRES_PASSWORD in the .env file}"
+      POSTGRES_DB: "${POSTGRES_DB:?Please configure POSTGRES_DB in the .env file}"
+    volumes:
+      - db_data:/var/lib/postgresql/data

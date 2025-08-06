@@ -8,7 +8,7 @@ internal sealed class UpdateAuditableEntitiesSaveChangesInterceptor : SaveChange
 {
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
         InterceptionResult<int> result,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = default)
     {
         if (eventData.Context is not null)
             UpdateAuditableEntities(eventData.Context.ChangeTracker);

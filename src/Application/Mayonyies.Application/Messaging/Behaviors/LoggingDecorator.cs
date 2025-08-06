@@ -1,8 +1,6 @@
-using Mayonyies.Application.Messaging;
-using Mayonyies.Core.Shared;
 using Microsoft.Extensions.Logging;
 
-namespace Mayonyies.Application.Behaviors;
+namespace Mayonyies.Application.Messaging.Behaviors;
 
 internal static class LoggingDecorator
 {

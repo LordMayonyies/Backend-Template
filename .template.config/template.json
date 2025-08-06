@@ -8,11 +8,31 @@
     "Clean Architecture"
   ],
   "tags": {
-    "language": "C#"
+    "language": "C#",
+    "type": "solution",
   },
   "identity": "Mayonyies.Backend.Template",
   "name": "ASP.NET Backend Solution",
   "shortName": "backend",
-  "sourceName": "Mayonyies.Backend.Template",
-  "preferNameDirectory": true
+  "sourceName": "Mayonyies",
+  "preferNameDirectory": true,
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            ".template.config",
+            ".git/",
+            ".gitignore",
+            "BackendTemplate.nuspec"
+          ]
+        }
+      ],
+      "source": "./",
+      "target": "./",
+        "rename": {
+            "README.md": "Test.md"
+        }
+    }
+  ]
 }
