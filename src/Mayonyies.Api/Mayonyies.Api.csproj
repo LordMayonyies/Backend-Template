@@ -4,15 +4,12 @@
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <UserSecretsId>1147d468-6026-4aee-978a-db927eee6be0</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-        <PackageReference Include="Serilog" />
         <PackageReference Include="Serilog.AspNetCore" />
-        <PackageReference Include="Serilog.Sinks.Console" />
-        <PackageReference Include="Serilog.Sinks.File" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,7 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Infrastructure\Mayonyies.Messaging.RabbitMQ\Mayonyies.Messaging.RabbitMQ.csproj" />
         <ProjectReference Include="..\Infrastructure\Mayonyies.Repository.EfCore\Mayonyies.Repository.EfCore.csproj"/>
         <ProjectReference Include="..\Application\Mayonyies.Application\Mayonyies.Application.csproj"/>
         <ProjectReference Include="..\Core\Mayonyies.Core\Mayonyies.Core.csproj"/>

@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Application/">
+    <Project Path="Application/Mayonyies.Application/Mayonyies.Application.csproj" />
+  </Folder>
+  <Folder Name="/Core/">
+    <Project Path="Core/Mayonyies.Core/Mayonyies.Core.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Infrastructure/Mayonyies.Infrastructure/Mayonyies.Infrastructure.csproj" />
+    <Project Path="Infrastructure/Mayonyies.Repository.EfCore/Mayonyies.Repository.EfCore.csproj" />
+  </Folder>
+  <Project Path="Mayonyies.Api/Mayonyies.Api.csproj" />
+</Solution>

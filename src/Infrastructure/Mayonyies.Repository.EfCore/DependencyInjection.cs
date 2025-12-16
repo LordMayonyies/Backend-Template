@@ -10,13 +10,15 @@ namespace Mayonyies.Repository.EfCore;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddEfCoreRepository(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddEfCoreRepository(this IServiceCollection services)
     {
         services.AddSingleton<PublishDomainEventsSaveChangesInterceptor>();
         services.AddSingleton<UpdateAuditableEntitiesSaveChangesInterceptor>();
 
         services.AddDbContext<MayonyiesDbContext>((serviceProvider, options) =>
         {
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
             options.UseNpgsql(configuration.GetConnectionString());
 
             options.AddInterceptors(
@@ -26,7 +28,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<MayonyiesDbContext>());
-        
+
         services.AddScoped<IUserRepository, UserRepository>();
 
         return services;

@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using System.Text;
 using Mayonyies.Application.Extensions;
 using Mayonyies.Core;
@@ -13,8 +12,10 @@ internal sealed class JwtService(IOptions<JwtOptions> jwtOptions) : IJwtService
 {
     private readonly JwtOptions _jwtOptions = jwtOptions.Value;
 
-    public Task<Result<string>> CreateAccessTokenAsync(IDictionary<string, object> claims,
-        CancellationToken cancellationToken = default)
+    public Task<Result<string>> CreateAccessTokenAsync(
+        IDictionary<string, object> claims,
+        CancellationToken cancellationToken = default
+    )
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey));
 
@@ -39,7 +40,10 @@ internal sealed class JwtService(IOptions<JwtOptions> jwtOptions) : IJwtService
         return Task.FromResult<Result<string>>(tokenString);
     }
 
-    public async Task<Result<(string accessToken, Guid refreshToken)>> CreateTokensForUserAsync(User user, CancellationToken cancellationToken = default)
+    public async Task<Result<(string accessToken, Guid refreshToken)>> CreateTokensForUserAsync(
+        User user,
+        CancellationToken cancellationToken = default
+    )
     {
         var createAccessTokenResult = await CreateAccessTokenAsync(user.GetClaims(), cancellationToken);
 
@@ -50,7 +54,7 @@ internal sealed class JwtService(IOptions<JwtOptions> jwtOptions) : IJwtService
 
         if (createRefreshTokenResult.IsFailure)
             return createRefreshTokenResult.Error;
-        
+
         return (createAccessTokenResult.Value, createRefreshTokenResult.Value.Value);
     }
 

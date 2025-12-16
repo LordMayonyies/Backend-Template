@@ -6,9 +6,11 @@ namespace Mayonyies.Repository.EfCore.Interceptors;
 
 internal sealed class UpdateAuditableEntitiesSaveChangesInterceptor : SaveChangesInterceptor
 {
-    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
+    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
+        DbContextEventData eventData,
         InterceptionResult<int> result,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         if (eventData.Context is not null)
             UpdateAuditableEntities(eventData.Context.ChangeTracker);
@@ -24,12 +26,20 @@ internal sealed class UpdateAuditableEntitiesSaveChangesInterceptor : SaveChange
             {
                 case EntityState.Added:
                     entry.Property(nameof(IAuditableEntity.CreatedAtUtc)).CurrentValue = DateTime.UtcNow;
-                    entry.Property(nameof(IAuditableEntity.CreatedBy)).CurrentValue = "System"; // Replace with actual user context
+                    // TODO: Replace with actual user context
+                    entry.Property(nameof(IAuditableEntity.CreatedBy)).CurrentValue = "System";
                     break;
                 case EntityState.Modified:
                     entry.Property(nameof(IAuditableEntity.ModifiedAtUtc)).CurrentValue = DateTime.UtcNow;
-                    entry.Property(nameof(IAuditableEntity.ModifiedBy)).CurrentValue = "System"; // Replace with actual user context
+                    // TODO: Replace with actual user context
+                    entry.Property(nameof(IAuditableEntity.ModifiedBy)).CurrentValue = "System";
                     break;
+                case EntityState.Detached:
+                case EntityState.Unchanged:
+                case EntityState.Deleted:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

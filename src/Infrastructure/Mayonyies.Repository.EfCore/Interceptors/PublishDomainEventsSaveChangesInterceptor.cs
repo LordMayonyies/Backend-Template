@@ -11,7 +11,8 @@ internal sealed class PublishDomainEventsSaveChangesInterceptor(IDomainEventsDis
     public override async ValueTask<int> SavedChangesAsync(
         SaveChangesCompletedEventData eventData,
         int result,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = default
+    )
     {
         if (eventData.Context is not null)
             await PublishDomainEventsAsync(eventData.Context.ChangeTracker, cancellationToken);
@@ -19,15 +20,16 @@ internal sealed class PublishDomainEventsSaveChangesInterceptor(IDomainEventsDis
         return await base.SavedChangesAsync(eventData, result, cancellationToken);
     }
 
-    private async Task PublishDomainEventsAsync(
+    private Task PublishDomainEventsAsync(
         ChangeTracker changeTracker,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var domainEvents = changeTracker
             .Entries<HasDomainEventsBase>()
             .Select(entry => entry.Entity)
             .SelectMany(entity => entity.GetAndClearDomainEvents());
 
-        await domainEventsDispatcher.DispatchAsync(domainEvents, cancellationToken);
+        return domainEventsDispatcher.DispatchAsync(domainEvents, cancellationToken);
     }
 }
