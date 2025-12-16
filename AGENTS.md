@@ -16,6 +16,7 @@ This template scaffolds a backend for new apps; clone, rename namespaces, and pl
 - `dotnet pack Mayonyies.Backend.Template.csproj -o ./nupkg` to produce the distributable template `.nupkg`.
 - `docker compose up --build` to run the API with Postgres; supply `.env` values for `POSTGRES_*` and `MayonyiesDbUrl`.
 - If build/test commands fail because of restricted permissions (e.g., package restore), request the needed escalation before retrying.
+- Health checks: registered with self + Postgres (`MayonyiesDbContext`) checks. Endpoints: `/health/live` (self) and `/health/ready` (includes DB). Ensure the database connection string is configured for readiness to pass.
 
 ## Coding Style & Naming Conventions
 - Target `net10.0`, with `<Nullable>enable</Nullable>` and implicit usings; keep 4-space indentation.
@@ -23,6 +24,7 @@ This template scaffolds a backend for new apps; clone, rename namespaces, and pl
 - Register dependencies in each project’s `DependencyInjection.cs`; prefer constructor injection and interfaces from `Core`.
 - Keep configuration in `appsettings.*` mapped via options; avoid hard-coded secrets or connection strings.
 - Extension methods should use explicit `this IServiceCollection` signatures for params arrays to preserve nullability and avoid CS8620 warnings.
+- EF Core `MayonyiesDbContext` remains internal; `InternalsVisibleTo("Mayonyies.Api")` enables API-layer health checks without exposing it publicly.
 
 ## Template Usage Notes
 - Rename the solution/projects (`Mayonyies.*`) to your app name; update namespaces and default connection string names accordingly.
@@ -34,7 +36,7 @@ This template scaffolds a backend for new apps; clone, rename namespaces, and pl
 ## Testing Guidelines
 - Add test projects under a `tests/` folder mirroring source namespaces (e.g., `Application/Users/UserServiceTests.cs`).
 - Use your .NET test framework of choice (xUnit/NUnit/MSTest); name files `*Tests.cs` and keep Arrange/Act/Assert structure.
-- Run `dotnet test src/Mayonyies.sln`; for EF Core scenarios, favor in-memory or containerized databases over production connections.
+- Run `dotnet test` targeting your solution/csproj; for EF Core scenarios, favor in-memory or containerized databases over production connections.
 
 ## Commit & Pull Request Guidelines
 - Commit messages in this repo are short and imperative (e.g., “Update publish_template.yml”); keep scopes small and focused.

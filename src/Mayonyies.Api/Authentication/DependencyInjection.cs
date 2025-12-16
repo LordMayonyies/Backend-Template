@@ -3,11 +3,11 @@ using Mayonyies.Application.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Mayonyies.Api.Extensions;
+namespace Mayonyies.Api.Authentication;
 
-internal static class IServiceCollectionExtensions
+internal static class DependencyInjection
 {
-    internal static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -17,12 +17,12 @@ internal static class IServiceCollectionExtensions
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = configuration[$"{nameof(JwtOptions.SectionName)}:{nameof(JwtOptions.Issuer)}"],
-                    ValidAudience = configuration[$"{nameof(JwtOptions.SectionName)}:{nameof(JwtOptions.Audience)}"],
+                    ValidIssuer = configuration[$"{JwtOptions.SectionName}:{nameof(JwtOptions.Issuer)}"],
+                    ValidAudience = configuration[$"{JwtOptions.SectionName}:{nameof(JwtOptions.Audience)}"],
                     IssuerSigningKey =
                         new SymmetricSecurityKey(
                             Encoding.UTF8.GetBytes(
-                                configuration[$"{nameof(JwtOptions.SectionName)}:{nameof(JwtOptions.SecretKey)}"]!
+                                configuration[$"{JwtOptions.SectionName}:{nameof(JwtOptions.SecretKey)}"]!
                             )
                         )
                 };

@@ -2,7 +2,7 @@ using Mayonyies.Core.Shared;
 
 namespace Mayonyies.Repository.EfCore;
 
-internal sealed class MayonyiesDbContext(
+public sealed class MayonyiesDbContext(
     DbContextOptions<MayonyiesDbContext> options
 )
     : DbContext(options), IUnitOfWork

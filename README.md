@@ -7,6 +7,7 @@ This repo hosts a reusable ASP.NET Core backend template (clean, layered, .NET 1
 - Clone, then `dotnet restore src/Mayonyies.Api/Mayonyies.Api.csproj` and `dotnet build src/Mayonyies.Api/Mayonyies.Api.csproj`.
 - Run locally: `dotnet run --project src/Mayonyies.Api/Mayonyies.Api.csproj`.
 - Compose: `docker compose up --build` (provide `.env` with `POSTGRES_*` and `MayonyiesDbUrl`).
+- Health checks: `/health/live` (self) and `/health/ready` (includes Postgres via `MayonyiesDbContext`); readiness requires a configured connection string.
 
 ## Packaging & Installing the Template
 - Pack: `dotnet pack Mayonyies.Backend.Template.csproj -o ./nupkg` (creates `Mayonyies.Backend.Template.*.nupkg`).
@@ -18,7 +19,7 @@ This repo hosts a reusable ASP.NET Core backend template (clean, layered, .NET 1
 - `src/Core`: domain contracts/entities.
 - `src/Application`: use cases, validation, JWT/auth, domain events, DI helpers (extension methods declared with `this IServiceCollection` to keep params nullability clean).
 - `src/Infrastructure` + `src/Infrastructure/Mayonyies.Repository.EfCore`: persistence, interceptors, repository abstractions, DI.
-- `src/Mayonyies.Api`: host, endpoints, middleware, Serilog config, `appsettings.*`.
+- `src/Mayonyies.Api`: host, endpoints (including health checks), middleware, Serilog config, `appsettings.*` (uses `InternalsVisibleTo` to access the internal `MayonyiesDbContext` for readiness checks).
 - Support: `Directory.Packages.props` (centralized package versions), `global.json` (SDK pin), `.template.config/template.json` (template metadata), `compose.yaml` (API + Postgres).
 
 ## Contributing

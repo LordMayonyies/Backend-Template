@@ -4,15 +4,16 @@ This project was created from the `backend` template and gives you a ready-to-ru
 
 ## Quickstart
 - Prereqs: .NET SDK 10.0+ and Docker (optional for Postgres).
-- Restore/build: `dotnet restore src/<YourApp>.slnx` then `dotnet build src/<YourApp>.slnx`.
+- Restore/build: `dotnet restore src/<YourApp>.Api/<YourApp>.Api.csproj` then `dotnet build src/<YourApp>.Api/<YourApp>.Api.csproj`.
 - Run API: `dotnet run --project src/<YourApp>.Api/<YourApp>.Api.csproj`.
 - Compose: `docker compose up --build` to launch the API and Postgres; set `.env` values for `POSTGRES_*` and `<YourApp>DbUrl`.
+- Health checks: `/health/live` (self) and `/health/ready` (includes Postgres via `<YourApp>DbContext`); readiness requires a configured connection string.
 
 ## Project Layout
 - `src/Core`: domain contracts/entities.
 - `src/Application`: application services, validation, auth/JWT helpers, domain events, DI.
 - `src/Infrastructure` + `src/Infrastructure/<YourApp>.Repository.EfCore`: EF Core persistence, interceptors, repository abstractions, DI wiring.
-- `src/<YourApp>.Api`: host, endpoints, middleware, Serilog setup, `appsettings.*`.
+- `src/<YourApp>.Api`: host, endpoints (including health checks), middleware, Serilog setup, `appsettings.*` (API uses `InternalsVisibleTo` to reach the internal `<YourApp>DbContext` for readiness).
 
 ## Configuration
 - App settings: update `src/<YourApp>.Api/appsettings.json` and `.Development.json` for Serilog, hosts, and any new options you add.
@@ -20,8 +21,8 @@ This project was created from the `backend` template and gives you a ready-to-ru
 - Connection strings: provide `<YourApp>Db` via appsettings or `ConnectionStrings__<YourApp>Db` env var; align with `docker compose` variables.
 
 ## Development Workflow
-- Add tests under a `tests/` folder mirroring source namespaces (name files `*Tests.cs`); run with `dotnet test src/<YourApp>.slnx`.
-- Register services in each `DependencyInjection.cs`; prefer constructor injection and interface-driven design.
+- Add tests under a `tests/` folder mirroring source namespaces (name files `*Tests.cs`); run with `dotnet test` targeting your solution/csproj.
+- Register services in each `DependencyInjection.cs`; prefer constructor injection and interface-driven design. Declare extension methods with explicit `this IServiceCollection` params signatures to keep nullability warnings away.
 - Follow nullable-enabled, implicit-using style with 4-space indentation; suffix async methods with `Async` and keep commit messages imperative.
 
 ## Next Steps

@@ -1,8 +1,11 @@
-using Mayonyies.Api.Extensions;
+using Mayonyies.Api.Endpoints.Authentication;
+using Mayonyies.Api.Authentication;
+using Mayonyies.Api.HealthChecks;
+using Mayonyies.Api.Logging;
 using Mayonyies.Application;
 using Mayonyies.Infrastructure;
 using Mayonyies.Repository.EfCore;
-using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
 
 Log.Logger =
@@ -17,26 +20,12 @@ builder.Services.AddSerilog(loggerConfiguration =>
 
 builder.Services.AddOpenApi();
 
-builder.Services.AddHttpLogging(options =>
-{
-    options.LoggingFields =
-        HttpLoggingFields.RequestPropertiesAndHeaders |
-        HttpLoggingFields.RequestQuery |
-        HttpLoggingFields.RequestBody |
-        HttpLoggingFields.ResponsePropertiesAndHeaders |
-        HttpLoggingFields.ResponseStatusCode |
-        HttpLoggingFields.ResponseBody;
+builder.Services.Configure<ForwardedHeadersOptions>(options => { options.ForwardedHeaders = ForwardedHeaders.All; });
 
-    // options.RequestHeaders.Add(HeaderDictionaryExtensions.ClientVersionHeaderKey);
-    // options.ResponseHeaders.Add(PaginationMetadata.HeaderKey);
-    options.RequestHeaders.Add("X-Forwarded-For");
-    options.RequestHeaders.Add("X-Forwarded-Proto");
-    options.RequestHeaders.Add("X-Forwarded-Host");
-    options.RequestHeaders.Add("X-Forwarded-Prefix");
-
-    options.RequestBodyLogLimit = 1000000;
-    options.ResponseBodyLogLimit = 1000000;
-});
+builder.Services
+    .AddCustomHttpLogging()
+    .AddCustomHealthChecks()
+    ;
 
 builder.Services
     .AddApplication()
@@ -46,15 +35,26 @@ builder.Services
         typeof(Mayonyies.Application.DependencyInjection),
         typeof(Mayonyies.Infrastructure.DependencyInjection),
         typeof(Mayonyies.Repository.EfCore.DependencyInjection),
-        typeof(Mayonyies.Api.Extensions.ResultExtensions));
+        typeof(Mayonyies.Api.Extensions.IResultExtensions));
 
 builder.Services
-    .AddAuthentication(builder.Configuration)
+    .AddCustomAuthentication(builder.Configuration)
     .AddAuthorization();
 
 var app = builder.Build();
 
+app.UseForwardedHeaders();
+
+app.UseHttpLogging();
+
 if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 
-app.Run();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapHealthChecks();
+
+app.MapAuthentication();
+
+await app.RunAsync();
