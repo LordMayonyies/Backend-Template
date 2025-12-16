@@ -1,6 +1,6 @@
 # Repository Guidelines
 
-This template scaffolds a backend for new apps; clone, rename namespaces, and plug in your domain.
+This template scaffolds a backend for new apps; clone, rename namespaces, and plug in your domain. Use the repo README for install/contribute steps and the package README for generated-project guidance.
 
 ## Project Structure & Module Organization
 - `src/Core/Mayonyies.Core`: domain contracts and entities.
@@ -10,9 +10,9 @@ This template scaffolds a backend for new apps; clone, rename namespaces, and pl
 - Supporting files: `Directory.Packages.props` for central package versions, `global.json` locking .NET SDK 10.0, `compose.yaml` for API + Postgres, and `nupkg/` for packed templates.
 
 ## Build, Test, and Development Commands
-- `dotnet restore src/Mayonyies.sln` then `dotnet build src/Mayonyies.sln` for a clean build.
+- `dotnet restore src/Mayonyies.Api/Mayonyies.Api.csproj` then `dotnet build src/Mayonyies.Api/Mayonyies.Api.csproj` for a clean build (or target your generated app’s API csproj).
 - `dotnet run --project src/Mayonyies.Api/Mayonyies.Api.csproj` to launch the API locally.
-- `dotnet test src/Mayonyies.sln` (once tests are present); add `--filter` to target suites.
+- `dotnet test` against your solution/csproj once tests exist; add `--filter` to target suites.
 - `dotnet pack Mayonyies.Backend.Template.csproj -o ./nupkg` to produce the distributable template `.nupkg`.
 - `docker compose up --build` to run the API with Postgres; supply `.env` values for `POSTGRES_*` and `MayonyiesDbUrl`.
 - If build/test commands fail because of restricted permissions (e.g., package restore), request the needed escalation before retrying.
@@ -22,6 +22,7 @@ This template scaffolds a backend for new apps; clone, rename namespaces, and pl
 - PascalCase for types/public members; camelCase for locals/fields; suffix async methods with `Async`.
 - Register dependencies in each project’s `DependencyInjection.cs`; prefer constructor injection and interfaces from `Core`.
 - Keep configuration in `appsettings.*` mapped via options; avoid hard-coded secrets or connection strings.
+- Extension methods should use explicit `this IServiceCollection` signatures for params arrays to preserve nullability and avoid CS8620 warnings.
 
 ## Template Usage Notes
 - Rename the solution/projects (`Mayonyies.*`) to your app name; update namespaces and default connection string names accordingly.

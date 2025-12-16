@@ -1,23 +1,23 @@
 # Backend Template
 
-This repository hosts a reusable ASP.NET Core backend template (clean, layered, .NET 10). Use it to scaffold new services, and contribute improvements here so every generated project benefits.
+This repo hosts a reusable ASP.NET Core backend template (clean, layered, .NET 10). Contribute improvements here so new projects generated from the template inherit them.
 
 ## Getting Started (Repo)
-- Prereqs: .NET SDK 10.0+, Docker (for compose), and `dotnet new` CLI for template testing.
-- Clone, then `dotnet restore src/Mayonyies.sln` and `dotnet build src/Mayonyies.sln`.
-- Run locally with `dotnet run --project src/Mayonyies.Api/Mayonyies.Api.csproj`.
-- Use `docker compose up --build` to run the API with Postgres; set `.env` values for `POSTGRES_*` and `MayonyiesDbUrl`.
+- Prereqs: .NET SDK 10.0+, Docker (for compose), and `dotnet new` for template testing.
+- Clone, then `dotnet restore src/Mayonyies.Api/Mayonyies.Api.csproj` and `dotnet build src/Mayonyies.Api/Mayonyies.Api.csproj`.
+- Run locally: `dotnet run --project src/Mayonyies.Api/Mayonyies.Api.csproj`.
+- Compose: `docker compose up --build` (provide `.env` with `POSTGRES_*` and `MayonyiesDbUrl`).
 
 ## Packaging & Installing the Template
 - Pack: `dotnet pack Mayonyies.Backend.Template.csproj -o ./nupkg` (creates `Mayonyies.Backend.Template.*.nupkg`).
 - Install locally for testing: `dotnet new install ./nupkg/Mayonyies.Backend.Template.*.nupkg`.
 - Generate a project: `dotnet new backend -n MyAppName` (uses `sourceName` replacement to rename namespaces/identifiers).
-- Uninstall when finished testing: `dotnet new uninstall backend`.
+- Uninstall after testing: `dotnet new uninstall backend`.
 
 ## Project Structure
 - `src/Core`: domain contracts/entities.
-- `src/Application`: use cases, validation, JWT/auth, domain events, DI helpers.
-- `src/Infrastructure` + `src/Infrastructure/Mayonyies.Repository.EfCore`: persistence, interceptors, repository abstractions, and DI.
+- `src/Application`: use cases, validation, JWT/auth, domain events, DI helpers (extension methods declared with `this IServiceCollection` to keep params nullability clean).
+- `src/Infrastructure` + `src/Infrastructure/Mayonyies.Repository.EfCore`: persistence, interceptors, repository abstractions, DI.
 - `src/Mayonyies.Api`: host, endpoints, middleware, Serilog config, `appsettings.*`.
 - Support: `Directory.Packages.props` (centralized package versions), `global.json` (SDK pin), `.template.config/template.json` (template metadata), `compose.yaml` (API + Postgres).
 

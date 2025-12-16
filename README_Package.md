@@ -4,7 +4,7 @@ This project was created from the `backend` template and gives you a ready-to-ru
 
 ## Quickstart
 - Prereqs: .NET SDK 10.0+ and Docker (optional for Postgres).
-- Restore/build: `dotnet restore src/<YourApp>.sln` then `dotnet build src/<YourApp>.sln`.
+- Restore/build: `dotnet restore src/<YourApp>.slnx` then `dotnet build src/<YourApp>.slnx`.
 - Run API: `dotnet run --project src/<YourApp>.Api/<YourApp>.Api.csproj`.
 - Compose: `docker compose up --build` to launch the API and Postgres; set `.env` values for `POSTGRES_*` and `<YourApp>DbUrl`.
 
@@ -20,7 +20,7 @@ This project was created from the `backend` template and gives you a ready-to-ru
 - Connection strings: provide `<YourApp>Db` via appsettings or `ConnectionStrings__<YourApp>Db` env var; align with `docker compose` variables.
 
 ## Development Workflow
-- Add tests under a `tests/` folder mirroring source namespaces (name files `*Tests.cs`); run with `dotnet test src/<YourApp>.sln`.
+- Add tests under a `tests/` folder mirroring source namespaces (name files `*Tests.cs`); run with `dotnet test src/<YourApp>.slnx`.
 - Register services in each `DependencyInjection.cs`; prefer constructor injection and interface-driven design.
 - Follow nullable-enabled, implicit-using style with 4-space indentation; suffix async methods with `Async` and keep commit messages imperative.
 
