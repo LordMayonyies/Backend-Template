@@ -5,6 +5,7 @@ using Mayonyies.Application.Messaging.Behaviors;
 using Mayonyies.Core.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Mayonyies.Application;
 
@@ -14,7 +15,11 @@ public static class DependencyInjection
     {
         services.AddDomainEvents();
 
-        services.AddOptionsWithValidateOnStart<JwtOptions>(JwtOptions.SectionName);
+        services.AddSingleton<IValidateOptions<JwtOptions>, JwtOptionsValidator>();
+
+        services.AddOptions<JwtOptions>(JwtOptions.SectionName)
+            .BindConfiguration(JwtOptions.SectionName)
+            .ValidateOnStart();
 
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
@@ -22,7 +27,10 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddCommandsAndQueriesFromAssemblies(this IServiceCollection services, params Type[] types)
+    public static IServiceCollection AddCommandsAndQueriesFromAssemblies(
+        this IServiceCollection services,
+        params Type[] types
+    )
     {
         services.AddValidatorsFromAssemblies(
             types.Select(t => t.Assembly),

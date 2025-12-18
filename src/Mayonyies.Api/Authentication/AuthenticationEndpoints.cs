@@ -2,10 +2,8 @@ using Mayonyies.Api.Extensions;
 using Mayonyies.Application.Authentication.LogIn;
 using Mayonyies.Application.Authentication.RefreshToken;
 using Mayonyies.Application.Messaging;
-using Mayonyies.Core.Shared;
-using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace Mayonyies.Api.Endpoints.Authentication;
+namespace Mayonyies.Api.Authentication;
 
 internal static class AuthenticationEndpoints
 {
@@ -13,6 +11,7 @@ internal static class AuthenticationEndpoints
     {
         var authenticationGroup = endpointRouteBuilder
             .MapGroup("/authentication")
+            .AllowAnonymous()
             .WithTags("Authentication");
 
         authenticationGroup.MapPost("logIn",
@@ -36,15 +35,17 @@ internal static class AuthenticationEndpoints
         return endpointRouteBuilder;
     }
 
-    private static IResult RefreshToken(
-        RefreshTokenCommand request,
+    private static async Task<IResult> RefreshToken(
+        RefreshTokenRequest request,
         ICommandHandler<RefreshTokenCommand, RefreshTokenCommandResponse> commandHandler,
         CancellationToken cancellationToken)
     {
-        var response = commandHandler.Handle(request, cancellationToken);
+        var command = new RefreshTokenCommand(request.AccessToken, request.RefreshToken);
 
-        return Results.Ok(response);
+        var result = await commandHandler.Handle(command, cancellationToken);
+
+        return result.IsFailure
+            ? Results.Extensions.EvaluateError(result.Error)
+            : Results.Ok(result.Value);
     }
 }
-
-public sealed record LogInRequest(string Username, string Password);

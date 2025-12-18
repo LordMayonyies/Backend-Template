@@ -22,7 +22,8 @@ internal sealed class RefreshTokenCommandHandler(
             return error;
 
         if (!claims.TryGetValue(JwtClaimTypes.UserId, out var userIdValue) ||
-            !int.TryParse(userIdValue.ToString(), out var userId))
+            !int.TryParse(userIdValue.ToString(), out var userId)
+           )
             return Errors.User.TokenIsInvalid();
 
         var user = await userRepository.GetByIdAsync(userId, cancellationToken);
@@ -30,7 +31,16 @@ internal sealed class RefreshTokenCommandHandler(
         if (user is null)
             return Errors.User.TokenIsInvalid();
 
-        (_, isFailure, var (accessToken, refreshToken), error) = await jwtService.CreateTokensForUserAsync(user, cancellationToken);
+        var oldRefreshToken =
+            user.RefreshTokens.SingleOrDefault(refreshToken => refreshToken.Value == command.RefreshToken);
+
+        if (oldRefreshToken is null)
+            return Errors.User.TokenIsInvalid();
+        
+        user.RemoveRefreshToken(oldRefreshToken);
+
+        (_, isFailure, var (accessToken, refreshToken), error) =
+            await jwtService.CreateTokensForUserAsync(user, cancellationToken);
 
         if (isFailure)
             return error;
