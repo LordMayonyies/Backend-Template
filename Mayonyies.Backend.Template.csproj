@@ -4,7 +4,7 @@
         <!-- Basic package info -->
         <TargetFramework>net10.0</TargetFramework>
         <PackageId>Mayonyies.Backend.Template</PackageId>
-        <Version>0.0.2</Version>
+        <Version>0.1.1</Version>
         <Authors>Sergi Mayor Agusti</Authors>
         <Description>ASP.NET Core Backend Solution Template using Clean Architecture</Description>
         <PackageTags>web;web api;api;aspnet;backend;clean-architecture</PackageTags>
@@ -31,7 +31,7 @@
     <ItemGroup>
         <!-- Include everything except excluded files -->
         <None Include="**/*;"
-              Exclude="Mayonyies.Backend.Template.csproj;**/.git/**;**/.gitignore;**/bin/**;**/obj/**;**/.DS_Store;**/*.user;**/*.suo;**/.vscode/**;**/.idea/**;**/node_modules/**;**/dist/**;**/out/**;**/coverage/**;**/test-results/**;**/tests/**;README.md;**/*.nupkg"
+              Exclude="Mayonyies.Backend.Template.csproj;**/.git/**;**/.gitignore;**/bin/**;**/obj/**;**/.DS_Store;**/*.user;**/*.suo;**/.vscode/**;**/.idea/**;**/node_modules/**;**/dist/**;**/out/**;**/coverage/**;**/test-results/**;**/tests/**;README.md;**/*.nupkg;**/AGENTS.md;.github"
               Pack="true"
               PackagePath="contentFiles/any/any/" />
 
